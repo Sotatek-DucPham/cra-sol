@@ -2,6 +2,7 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import React, { useEffect, useMemo, useState } from "react";
+import * as bs58 from 'bs58';
 
 const connection = new Connection(clusterApiUrl("mainnet-beta"));
 
@@ -60,6 +61,14 @@ const TokenList: React.FC = () => {
     }
   }, [publicKey]);
 
+  const signMessageButton = async () => {
+    const timestamp = Date.now();
+    const message = timestamp.toString();
+    const signatureInfo = await window.solana.signMessage(Buffer.from(message));
+
+    console.log({ timestamp, signature: bs58.encode(signatureInfo.signature), address: publicKey?.toBase58() });
+  };
+
   return (
     <table role="main">
       {tokenAccounts.map(({ uiAmount, mint }) => {
@@ -83,6 +92,8 @@ const TokenList: React.FC = () => {
           </tr>
         );
       })}
+
+    <button onClick={signMessageButton}>signMessageButton</button>
     </table>
   );
 };
