@@ -70,6 +70,7 @@ const TokenList: React.FC = () => {
   };
 
   return (
+    <>
     <table role="main">
       {tokenAccounts.map(({ uiAmount, mint }) => {
         const token = tokenList?.tokens?.find((t: any) => t.address === mint);
@@ -92,9 +93,9 @@ const TokenList: React.FC = () => {
           </tr>
         );
       })}
-
-    <button onClick={signMessageButton}>signMessageButton</button>
     </table>
+    <button onClick={signMessageButton}>signMessageButton</button>
+    </>
   );
 };
 
